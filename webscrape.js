@@ -28,7 +28,7 @@ async function scrapePinterestImages(url) {
                 if (srcset) {
                     srcset.split(',').forEach(item => {
                         const url = item.trim().split(' ')[0];
-                        if (url && url.includes('/originals/')) urls.add(url);
+                        if (url && url.includes('/originals/') && !url.includes('videos/thumbnails/')) urls.add(url);
                     });
                 }
                 // data-pin-media
@@ -72,7 +72,7 @@ async function scrapePinterestImages(url) {
             if (srcset) {
                 srcset.split(',').forEach(item => {
                     const url = item.trim().split(' ')[0];
-                    if (url && url.includes('/originals/')) urls.add(url);
+                    if (url && url.includes('/originals/') && !url.includes('videos/thumbnails/')) urls.add(url);
                 });
             }
             const pin = img.getAttribute('data-pin-media');
@@ -96,7 +96,7 @@ async function scrapePinterestImages(url) {
 }
 
 (async () => {
-    const url = 'https://www.pinterest.com/maritzagarcia14/anime-females/'; // เปลี่ยน URL ตามต้องการ
+    const url = 'https://www.pinterest.com/search/pins/?q=anime%20character&rs=content_type_filter'; // เปลี่ยน URL ตามต้องการ
     const images = await scrapePinterestImages(url);
     const originals = images.filter(link => link.includes('/originals/')).slice(0, 200);
     console.log(`Originals only (สูงสุด 200):`, originals);
