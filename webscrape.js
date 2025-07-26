@@ -16,7 +16,7 @@ async function scrapePinterestImages(url) {
     let prevHeight = 0;
     let sameCount = 0;
     const allOriginals = new Set();
-    while (sameCount < 4 && allOriginals.size < 200) {
+    while (sameCount < 4 && allOriginals.size < 1032) {
         await page.evaluate(() => window.scrollBy(0, window.innerHeight));
         await delay(900);
         // ดึงลิงก์ originals รอบนี้
@@ -53,7 +53,7 @@ async function scrapePinterestImages(url) {
         });
         links.forEach(link => allOriginals.add(link));
         console.log(`[Scroll] สะสม originals: ${allOriginals.size}`);
-        if (allOriginals.size >= 200) break;
+        if (allOriginals.size >= 1032) break;
         const currentHeight = await page.evaluate('document.body.scrollHeight');
         if (currentHeight === prevHeight) {
             sameCount++;
@@ -96,9 +96,9 @@ async function scrapePinterestImages(url) {
 }
 
 (async () => {
-    const url = 'https://www.pinterest.com/search/pins/?q=anime%20character&rs=content_type_filter'; // เปลี่ยน URL ตามต้องการ
+    const url = 'https://www.pinterest.com/search/pins/?q=monster%20design%20ideas%20scary&rs=ac&len=20&source_id=ac_cIjMEZkF&eq=monster%20design%20ideas&etslf=2242'; // เปลี่ยน URL ตามต้องการ
     const images = await scrapePinterestImages(url);
-    const originals = images.filter(link => link.includes('/originals/')).slice(0, 200);
+    const originals = images.filter(link => link.includes('/originals/')).slice(0, 1032);
     console.log(`Originals only (สูงสุด 200):`, originals);
     fs.writeFileSync('images.json', JSON.stringify(originals, null, 2), 'utf-8');
     console.log(`บันทึกลิงค์รูป originals ${originals.length} รูป ลงไฟล์ images.json แล้ว`);
